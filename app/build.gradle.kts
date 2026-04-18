@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.volley)
     implementation(libs.gson)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
