@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "com.ubayadev.pejuangsubuh"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     buildFeatures {
         viewBinding = true
@@ -18,6 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.ubayadev.pejuangsubuh"
         minSdk = 26
+        //noinspection OldTargetApi
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -53,9 +50,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.volley)
     implementation(libs.gson)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.analytics)
     implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
