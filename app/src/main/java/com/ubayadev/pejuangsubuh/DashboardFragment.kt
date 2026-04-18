@@ -34,7 +34,7 @@ class HabitListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_habit_list, container, false)
+        return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
     companion object {

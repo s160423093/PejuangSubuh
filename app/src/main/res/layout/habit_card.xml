@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DDD7EE"
-    tools:context=".studentListItem">
+    tools:context=".habit_card">
 
     <LinearLayout
         android:layout_width="match_parent"
