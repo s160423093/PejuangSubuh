@@ -1,9 +1,10 @@
 package com.ubayadev.pejuangsubuh.model
 
-data class User(
-    var id:String?
-)
-
 data class Habit(
-    var id: String?
+    var name:String?,
+    var description: String?,
+    var progress: Int = 0,
+    var goal: Int?,
+    var unit: String?,
+    var icon: String
 )

@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
 
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ubayadev.pejuangsubuh.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/actionLoginFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newHabitFragment"
+        android:name="com.ubayadev.pejuangsubuh.view.NewHabitFragment"
+        android:label="fragment_new_habit"
+        tools:layout="@layout/fragment_new_habit" >
+        <action
+            android:id="@+id/actionNewHabitFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.ubayadev.pejuangsubuh.view.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/actionDashboardFragment"
+            app:destination="@id/newHabitFragment" />
+    </fragment>
 </navigation>

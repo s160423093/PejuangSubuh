@@ -14,7 +14,7 @@
         android:paddingEnd="40dp">
 
         <TextView
-            android:id="@+id/txtView1"
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -34,7 +34,8 @@
             android:hint="Habit Name*"
             android:inputType="text"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/txtDescription"
@@ -48,7 +49,8 @@
             android:hint="Short Description*"
             android:inputType="text"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/txtGoal"
@@ -62,7 +64,8 @@
             android:hint="Goal*"
             android:inputType="text"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textView2"
@@ -83,7 +86,8 @@
             android:hint="Unit*"
             android:inputType="text"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textView3"

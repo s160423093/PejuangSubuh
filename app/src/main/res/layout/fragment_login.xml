@@ -15,7 +15,7 @@
         android:paddingEnd="40dp">
 
         <TextView
-            android:id="@+id/txtView1"
+            android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Habit Tracker"
@@ -43,7 +43,8 @@
             android:hint="Username*"
             android:inputType="text"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/txtPassword"
@@ -57,7 +58,8 @@
             android:hint="Password*"
             android:inputType="textPassword"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btnLogin"
