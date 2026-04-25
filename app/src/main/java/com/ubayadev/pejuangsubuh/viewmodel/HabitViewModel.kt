@@ -18,6 +18,7 @@ class HabitViewModel(application: Application): AndroidViewModel(application) {
     val loadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     val insertStatusLD = MutableLiveData<Boolean>()
+    val updateStatusLD = MutableLiveData<Boolean>()
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
@@ -79,12 +80,41 @@ class HabitViewModel(application: Application): AndroidViewModel(application) {
         ) {
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
-                params["name"] = habit.name.toString()
-                params["description"] = habit.description.toString()
-                params["goal"] = habit.goal.toString()
-                params["unit"] = habit.unit.toString()
-                params["icon"] = habit.icon.toString()
-                params["progress"] = habit.progress.toString()
+                params["habit[name]"] = habit.name
+                params["habit[description]"] = habit.description
+                params["habit[goal]"] = habit.goal.toString()
+                params["habit[unit]"] = habit.unit
+                params["habit[icon]"] = habit.icon
+                return params
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
+
+    fun update(habit: Habit) {
+        queue = Volley.newRequestQueue(getApplication())
+        val url = "https://ubaya.cloud/hybrid/160423093/nmp/update_progress.php"
+        val stringRequest = object : StringRequest(
+            Method.POST,
+            url,
+            {
+                Log.d("apiresult", it)
+                updateStatusLD.value = true
+                loadErrorLD.value = false
+                loadingLD.value = false
+            },
+            {
+                Log.d("apiresult", it.toString())
+                updateStatusLD.value = false
+                loadErrorLD.value = true
+                loadingLD.value = false
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String, String>()
+                params["habit[id]"] = habit.id.toString()
+                params["habit[progress]"] = habit.progress.toString()
                 return params
             }
         }

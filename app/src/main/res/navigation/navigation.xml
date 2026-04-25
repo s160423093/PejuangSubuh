@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ubayadev.pejuangsubuh.view.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/actionLoginFragment"
             app:destination="@id/dashboardFragment" />
@@ -17,8 +17,8 @@
     <fragment
         android:id="@+id/newHabitFragment"
         android:name="com.ubayadev.pejuangsubuh.view.NewHabitFragment"
-        android:label="fragment_new_habit"
-        tools:layout="@layout/fragment_new_habit" >
+        android:label="New Habit"
+        tools:layout="@layout/fragment_new_habit">
         <action
             android:id="@+id/actionNewHabitFragment"
             app:destination="@id/dashboardFragment" />
@@ -26,8 +26,8 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.ubayadev.pejuangsubuh.view.DashboardFragment"
-        android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/actionDashboardFragment"
             app:destination="@id/newHabitFragment" />

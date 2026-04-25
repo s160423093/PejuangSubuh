@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ubayadev.pejuangsubuh.R
 import com.ubayadev.pejuangsubuh.databinding.HabitCardBinding
 import com.ubayadev.pejuangsubuh.model.Habit
+import com.ubayadev.pejuangsubuh.viewmodel.HabitViewModel
 
-class HabitListAdapter(val habitList: ArrayList<Habit>): RecyclerView.Adapter<HabitListAdapter.HabitViewHolder>() {
-
+class HabitListAdapter(val habitList: ArrayList<Habit>, val viewModel: HabitViewModel): RecyclerView.Adapter<HabitListAdapter.HabitViewHolder>() {
     class HabitViewHolder(var binding: HabitCardBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
@@ -22,16 +22,29 @@ class HabitListAdapter(val habitList: ArrayList<Habit>): RecyclerView.Adapter<Ha
             imgIcon.setImageResource(setIcon(habit.icon))
             txtName.text = habit.name
             txtDescription.text = habit.description
+            txtStatus.text = setStatus(habit)
             txtGoalUnit.text = String.format("${habit.progress}/${habit.goal} ${habit.unit}")
+            progressBar.max = habit.goal
             progressBar.setProgress(habit.progress, true)
-            btnDecrease.setOnClickListener { TODO("Not yet implemented") }
-            btnIncrease.setOnClickListener { TODO("Not yet implemented") }
+            btnDecrease.setOnClickListener {
+                if (habit.progress > 0) {
+                    habit.progress -= 1
+                    viewModel.update(habit)
+                }
+            }
+            btnIncrease.setOnClickListener {
+                if (habit.progress < habit.goal) {
+                    habit.progress += 1
+                    viewModel.update(habit)
+                }
+            }
         }
     }
 
-    fun updateList(tempList: ArrayList<Habit>){
+    fun updateList(tempList: ArrayList<Habit>) {
         habitList.clear()
         habitList.addAll(tempList)
+        notifyDataSetChanged()
     }
 
     fun setIcon(iconName: String?): Int {
@@ -42,6 +55,8 @@ class HabitListAdapter(val habitList: ArrayList<Habit>): RecyclerView.Adapter<Ha
             else -> R.drawable.ic_default_foreground
         }
     }
+
+    fun setStatus(habit: Habit) = if (habit.progress >= habit.goal) { "Done" } else { "In Progress" }
 
     override fun getItemCount() = habitList.size
 }

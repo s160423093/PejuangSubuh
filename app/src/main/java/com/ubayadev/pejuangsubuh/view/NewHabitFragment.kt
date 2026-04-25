@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.ubayadev.pejuangsubuh.databinding.FragmentNewHabitBinding
@@ -27,21 +26,22 @@ class NewHabitFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HabitViewModel::class.java]
         setupSpinner()
         with(binding){
-            btnCreate.setOnClickListener{ x ->
+            btnCreate.setOnClickListener{
                 val new = Habit(
                     name = txtName.text.toString(),
-                    description = txtName.text.toString(),
+                    description = txtDescription.text.toString(),
                     goal = txtGoal.text.toString().toInt(),
                     unit = txtUnit.text.toString(),
                     icon = spinnerIcon.selectedItem.toString()
                 )
                 viewModel.insert(new)
-                viewModel.insertStatusLD.observe(viewLifecycleOwner, Observer {
-                    if (it) {
-                        val action = NewHabitFragmentDirections.actionNewHabitFragment()
-                        x.findNavController().navigate(action)
-                    }
-                })
+            }
+            viewModel.insertStatusLD.observe(viewLifecycleOwner) {
+                if (it) {
+                    val action = NewHabitFragmentDirections.actionNewHabitFragment()
+                    view.findNavController().navigate(action)
+                    viewModel.insertStatusLD.value = false
+                }
             }
         }
     }

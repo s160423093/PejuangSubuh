@@ -15,7 +15,7 @@ import com.ubayadev.pejuangsubuh.viewmodel.HabitViewModel
 class DashboardFragment : Fragment() {
     lateinit var binding: FragmentDashboardBinding
     lateinit var viewModel: HabitViewModel
-    val habitListAdapter = HabitListAdapter(arrayListOf())
+    lateinit var habitListAdapter: HabitListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
@@ -25,6 +25,7 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[HabitViewModel::class.java]
+        habitListAdapter = HabitListAdapter(arrayListOf(), viewModel)
         viewModel.refresh()
 
         with(binding){
@@ -54,10 +55,15 @@ class DashboardFragment : Fragment() {
             habitListAdapter.updateList(it)
         })
 
-        viewModel.loadErrorLD.observe(viewLifecycleOwner, Observer {
-            with(binding) {
-                if(it == true) { txtError.visibility = View.VISIBLE } else { txtError.visibility = View.GONE }
+        viewModel.updateStatusLD.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                viewModel.refresh()
+                viewModel.updateStatusLD.value = false
             }
+        })
+
+        viewModel.loadErrorLD.observe(viewLifecycleOwner, Observer {
+            with(binding) { if(it == true) { txtError.visibility = View.VISIBLE } else { txtError.visibility = View.GONE } }
         })
 
         viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
