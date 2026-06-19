@@ -21,7 +21,7 @@ class HabitViewModel(application: Application): AndroidViewModel(application) {
     val updateStatusLD = MutableLiveData<Boolean>()
 
     val TAG = "volleyTag"
-    private var queue: RequestQueue? = null
+    var queue: RequestQueue? = null
 
     fun refresh(){
         loadErrorLD.value = false

@@ -52,4 +52,8 @@ class NewHabitFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerIcon.adapter = adapter
     }
+
+    fun observeViewModel(){
+
+    }
 }
