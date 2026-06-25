@@ -11,9 +11,9 @@ import com.ubayadev.pejuangsubuh.model.Habit
 import com.ubayadev.pejuangsubuh.viewmodel.HabitViewModel
 
 //class HabitListAdapter(val habitList: ArrayList<Habit>, val viewModel: HabitViewModel): RecyclerView.Adapter<HabitListAdapter.HabitViewHolder>() {
-class HabitListAdapter(val habitList: ArrayList<Habit>, val listener: HabitItemListener): RecyclerView.Adapter<HabitListAdapter.HabitViewHolder>(), HabitItemListener {
+class HabitListAdapter(val habitList: ArrayList<Habit>, val listener: HabitItemListener): RecyclerView.Adapter<HabitListAdapter.HabitViewHolder>() {
     class HabitViewHolder(var binding: HabitCardBinding): RecyclerView.ViewHolder(binding.root)
-    private lateinit var viewModel: HabitViewModel
+//    private lateinit var viewModel: HabitViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val binding = HabitCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -56,19 +56,19 @@ class HabitListAdapter(val habitList: ArrayList<Habit>, val listener: HabitItemL
 //        }
 //    }
 
-    override fun onIncrease(habit: Habit) {
-        if (habit.progress < habit.goal) {
-            habit.progress++
-            viewModel.update(habit)
-        }
-    }
-
-    override fun onDecrease(habit: Habit) {
-        if (habit.progress > 0) {
-            habit.progress--
-            viewModel.update(habit)
-        }
-    }
+//    override fun onIncrease(habit: Habit) {
+//        if (habit.progress < habit.goal) {
+//            habit.progress++
+//            viewModel.update(habit)
+//        }
+//    }
+//
+//    override fun onDecrease(habit: Habit) {
+//        if (habit.progress > 0) {
+//            habit.progress--
+//            viewModel.update(habit)
+//        }
+//    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(tempList: ArrayList<Habit>) {

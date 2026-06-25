@@ -1,14 +1,12 @@
 package com.ubayadev.pejuangsubuh.utility
 
 import android.content.Context
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.ubayadev.pejuangsubuh.model.HabitDatabase
+import com.ubayadev.pejuangsubuh.model.AppDatabase
 
-val  DB_NAME = "pejuang_subuh"
+val DB_NAME = "pejuang_subuh"
 
-fun buildDB(context: Context): HabitDatabase{
-    val db = HabitDatabase.buildDatabase(context)
+fun buildDB(context: Context): AppDatabase{
+    val db = AppDatabase.buildDatabase(context)
     return db
 }
 

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ubayadev.pejuangsubuh.model.Habit
-import com.ubayadev.pejuangsubuh.model.HabitDatabase
+import com.ubayadev.pejuangsubuh.model.AppDatabase
 import com.ubayadev.pejuangsubuh.utility.buildDB
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +33,7 @@ class DetailHabitViewModel(application: Application) : AndroidViewModel(applicat
 
     fun addHabit(list: List<Habit>) {
         launch{
-            val db = HabitDatabase.buildDatabase(getApplication())
+            val db = AppDatabase.buildDatabase(getApplication())
             db.habitDao().insertAll(*list.toTypedArray())
         }
     }

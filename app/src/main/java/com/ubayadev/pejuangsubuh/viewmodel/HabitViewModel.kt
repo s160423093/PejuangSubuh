@@ -11,119 +11,78 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ubayadev.pejuangsubuh.model.Habit
+import com.ubayadev.pejuangsubuh.utility.buildDB
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import kotlin.coroutines.CoroutineContext
 
-class HabitViewModel(application: Application): AndroidViewModel(application) {
-    val habitsLD = MutableLiveData<ArrayList<Habit>>()
+class HabitViewModel(application: Application): AndroidViewModel(application), CoroutineScope {
+    val habitsLD = MutableLiveData<List<Habit>>()
     val loadErrorLD = MutableLiveData<Boolean>()
     val loadingLD = MutableLiveData<Boolean>()
     val insertStatusLD = MutableLiveData<Boolean>()
     val updateStatusLD = MutableLiveData<Boolean>()
 
-    val TAG = "volleyTag"
-    var queue: RequestQueue? = null
+    private var job = Job()
 
-    fun refresh(){
-        loadErrorLD.value = false
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
+
+    fun refresh() {
         loadingLD.value = true
-        queue = Volley.newRequestQueue(getApplication())
-
-        val url = "https://ubaya.cloud/hybrid/160423093/nmp/get_all_habits.php"
-        val stringRequest = StringRequest(
-            Request.Method.GET,
-            url,
-            { //response ->
-                Log.d("apiresult", it)
-                val obj = JSONObject(it)
-                if (obj.getString("status") == "SUCCESS") {
-                    val data = obj.getJSONArray("data")
-                    val sType = object : TypeToken<List<Habit>>() {}.type
-                    val result: List<Habit> = Gson().fromJson(data.toString(), sType)
-
-                    habitsLD.value = ArrayList(result)
-                    loadErrorLD.value = false
-                    loadingLD.value = false
-                }
-            },
-            { //error ->
-                Log.d("apiresult", it.toString())
-                loadErrorLD.value = true
-                loadingLD.value = false
-            }
-        )
-        stringRequest.tag = TAG
-        queue?.add(stringRequest)
-    }
-
-    fun insert(habit: Habit){
-        insertStatusLD.value = false
         loadErrorLD.value = false
-        loadingLD.value = true
-        queue = Volley.newRequestQueue(getApplication())
-
-        val url = "https://ubaya.cloud/hybrid/160423093/nmp/insert_habit.php"
-        val stringRequest = object : StringRequest(
-            Method.POST,
-            url,
-            {
-                Log.d("apiresult", it)
-                insertStatusLD.value = true
-                loadErrorLD.value = false
-                loadingLD.value = false
-            },
-            {
-                Log.d("apiresult", it.toString())
-                insertStatusLD.value = false
-                loadErrorLD.value = true
-                loadingLD.value = false
-            }
-        ) {
-            override fun getParams(): MutableMap<String, String> {
-                val params = HashMap<String, String>()
-                params["habit[name]"] = habit.name
-                params["habit[description]"] = habit.description
-                params["habit[goal]"] = habit.goal.toString()
-                params["habit[unit]"] = habit.unit
-                params["habit[icon]"] = habit.icon
-                return params
+        launch {
+            try {
+                val db = buildDB(getApplication())
+                habitsLD.postValue(db.habitDao().selectAllHabit())
+                loadingLD.postValue(false)
+            } catch (e: Exception) {
+                loadErrorLD.postValue(true)
+                loadingLD.postValue(false)
             }
         }
-        stringRequest.tag = TAG
-        queue?.add(stringRequest)
+    }
+
+    fun insert(habit: Habit) {
+        loadingLD.value = true
+        loadErrorLD.value = false
+        launch {
+            try {
+                val db = buildDB(getApplication())
+                db.habitDao().insert(habit)
+                insertStatusLD.postValue(true)
+                loadingLD.postValue(false)
+            } catch (e: Exception) {
+                insertStatusLD.postValue(false)
+                loadErrorLD.postValue(true)
+                loadingLD.postValue(false)
+            }
+        }
     }
 
     fun update(habit: Habit) {
-        queue = Volley.newRequestQueue(getApplication())
-        val url = "https://ubaya.cloud/hybrid/160423093/nmp/update_progress.php"
-        val stringRequest = object : StringRequest(
-            Method.POST,
-            url,
-            {
-                Log.d("apiresult", it)
-                updateStatusLD.value = true
-                loadErrorLD.value = false
-                loadingLD.value = false
-            },
-            {
-                Log.d("apiresult", it.toString())
-                updateStatusLD.value = false
-                loadErrorLD.value = true
-                loadingLD.value = false
-            }
-        ) {
-            override fun getParams(): MutableMap<String, String> {
-                val params = HashMap<String, String>()
-                params["habit[id]"] = habit.id.toString()
-                params["habit[progress]"] = habit.progress.toString()
-                return params
+        loadingLD.value = true
+        loadErrorLD.value = false
+        launch {
+            try {
+                val db = buildDB(getApplication())
+                db.habitDao().updateHabit(habit)
+                updateStatusLD.postValue(true)
+                habitsLD.postValue(db.habitDao().selectAllHabit())
+                loadingLD.postValue(false)
+            } catch (e: Exception) {
+                updateStatusLD.postValue(false)
+                loadErrorLD.postValue(true)
+                loadingLD.postValue(false)
             }
         }
-        stringRequest.tag = TAG
-        queue?.add(stringRequest)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        queue?.cancelAll(TAG)
-    }
+//    override fun onCleared() {
+//        super.onCleared()
+//        queue?.cancelAll(TAG)
+//    }
 }

@@ -4,7 +4,7 @@ import android.view.View
 import com.ubayadev.pejuangsubuh.model.Habit
 
 interface HabitItemListener {
-    fun onClick(view: View)
+    fun onClick(v: View)
     fun onIncrease(habit: Habit)
     fun onDecrease(habit: Habit)
 }

@@ -18,11 +18,7 @@
         android:id="@+id/newHabitFragment"
         android:name="com.ubayadev.pejuangsubuh.view.NewHabitFragment"
         android:label="New Habit"
-        tools:layout="@layout/fragment_new_habit">
-        <action
-            android:id="@+id/actionNewHabitFragment"
-            app:destination="@id/dashboardFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_new_habit"/>
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.ubayadev.pejuangsubuh.view.DashboardFragment"
@@ -31,5 +27,16 @@
         <action
             android:id="@+id/actionDashboardFragment"
             app:destination="@id/newHabitFragment" />
+        <action
+            android:id="@+id/actionDashboardEditFragment"
+            app:destination="@id/editHabitFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editHabitFragment"
+        android:name="com.ubayadev.pejuangsubuh.view.EditHabitFragment"
+        android:label="EditHabitFragment" >
+        <argument
+            android:name="habitId"
+            app:argType="integer" />
     </fragment>
 </navigation>

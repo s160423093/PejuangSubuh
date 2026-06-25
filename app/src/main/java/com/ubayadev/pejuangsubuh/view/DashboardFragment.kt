@@ -10,9 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ubayadev.pejuangsubuh.databinding.FragmentDashboardBinding
+import com.ubayadev.pejuangsubuh.model.Habit
 import com.ubayadev.pejuangsubuh.viewmodel.HabitViewModel
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment(), HabitItemListener {
     lateinit var binding: FragmentDashboardBinding
     lateinit var viewModel: HabitViewModel
     lateinit var habitListAdapter: HabitListAdapter
@@ -25,7 +26,9 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[HabitViewModel::class.java]
-        habitListAdapter = HabitListAdapter(arrayListOf(), viewModel)
+
+        habitListAdapter = HabitListAdapter(arrayListOf(), this)
+
         viewModel.refresh()
 
         with(binding){
@@ -52,18 +55,24 @@ class DashboardFragment : Fragment() {
 
     fun observeViewModel(){
         viewModel.habitsLD.observe(viewLifecycleOwner, Observer {
-            habitListAdapter.updateList(it)
+            habitListAdapter.updateList(ArrayList(it))
         })
 
         viewModel.updateStatusLD.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                viewModel.refresh()
+//                viewModel.refresh()
                 viewModel.updateStatusLD.value = false
             }
         })
 
         viewModel.loadErrorLD.observe(viewLifecycleOwner, Observer {
-            with(binding) { if(it == true) { txtError.visibility = View.VISIBLE } else { txtError.visibility = View.GONE } }
+            with(binding) {
+                if(it == true) {
+                    txtError.visibility = View.VISIBLE
+                } else {
+                    txtError.visibility = View.GONE
+                }
+            }
         })
 
         viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
@@ -77,5 +86,25 @@ class DashboardFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onClick(v: View) {
+        val habitId = v.tag.toString().toInt()
+        val action = DashboardFragmentDirections.actionDashboardEditFragment(habitId)
+        v.findNavController().navigate(action)
+    }
+
+    override fun onIncrease(habit: Habit) {
+        if (habit.progress < habit.goal) {
+            habit.progress++
+            viewModel.update(habit)
+        }
+    }
+
+    override fun onDecrease(habit: Habit) {
+        if (habit.progress > 0) {
+            habit.progress--
+            viewModel.update(habit)
+        }
     }
 }

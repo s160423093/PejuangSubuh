@@ -25,24 +25,17 @@ class NewHabitFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[HabitViewModel::class.java]
         setupSpinner()
-        with(binding){
-            btnCreate.setOnClickListener{
-                val new = Habit(
-                    name = txtName.text.toString(),
-                    description = txtDescription.text.toString(),
-                    goal = txtGoal.text.toString().toInt(),
-                    unit = txtUnit.text.toString(),
-                    icon = spinnerIcon.selectedItem.toString()
-                )
-                viewModel.insert(new)
-            }
-            viewModel.insertStatusLD.observe(viewLifecycleOwner) {
-                if (it) {
-                    val action = NewHabitFragmentDirections.actionNewHabitFragment()
-                    view.findNavController().navigate(action)
-                    viewModel.insertStatusLD.value = false
-                }
-            }
+        observeViewModel()
+
+        binding.btnCreate.setOnClickListener {
+            val newHabit = Habit(
+                name = binding.txtName.text.toString(),
+                description = binding.txtDescription.text.toString(),
+                goal = binding.txtGoal.text.toString().toIntOrNull() ?: 0,
+                unit = binding.txtUnit.text.toString(),
+                icon = binding.spinnerIcon.selectedItem.toString()
+            )
+            viewModel.insert(newHabit)
         }
     }
 
@@ -54,6 +47,11 @@ class NewHabitFragment : Fragment() {
     }
 
     fun observeViewModel(){
-
+        viewModel.insertStatusLD.observe(viewLifecycleOwner) {
+            if (it) {
+                view?.findNavController()?.popBackStack()
+                viewModel.insertStatusLD.value = false
+            }
+        }
     }
 }

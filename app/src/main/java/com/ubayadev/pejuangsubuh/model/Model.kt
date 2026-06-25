@@ -31,3 +31,15 @@ data class Habit(
     @ColumnInfo(name = "created_at")
     var createdAt: String? = null
 )
+
+@Entity(tableName = "users")
+data class User(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
+
+    @ColumnInfo(name = "username")
+    var username: String,
+
+    @ColumnInfo(name = "password")
+    var password: String
+)

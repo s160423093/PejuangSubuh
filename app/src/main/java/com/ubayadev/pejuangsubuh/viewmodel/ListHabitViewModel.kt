@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ubayadev.pejuangsubuh.model.Habit
-import com.ubayadev.pejuangsubuh.model.HabitDatabase
+import com.ubayadev.pejuangsubuh.model.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,7 +23,7 @@ class ListHabitViewModel(application: Application): AndroidViewModel(application
         loadingLD.value = true
         loadErrorLD.value = false
         launch {
-            val db = HabitDatabase.buildDatabase(getApplication())
+            val db = AppDatabase.buildDatabase(getApplication())
             habitLD.postValue(db.habitDao().selectAllHabit())
             loadingLD.postValue(false)
         }
@@ -31,7 +31,7 @@ class ListHabitViewModel(application: Application): AndroidViewModel(application
 
     fun clearTask(habit: Habit) {
         launch {
-            val db = HabitDatabase.buildDatabase(getApplication())
+            val db = AppDatabase.buildDatabase(getApplication())
             db.habitDao().deleteHabit(habit)
             habitLD.postValue(db.habitDao().selectAllHabit())
         }
