@@ -30,6 +30,8 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+        viewModel.seedUser()
+
         observeViewModel()
 
         binding.btnLogin.setOnClickListener {

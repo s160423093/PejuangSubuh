@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ubayadev.pejuangsubuh.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,6 +30,21 @@ class LoginViewModel(application: Application)
                 loginResult.postValue(true)
             } else {
                 loginResult.postValue(false)
+            }
+        }
+    }
+
+    fun seedUser() {
+        launch {
+            val db = buildDB(getApplication())
+
+            if (db.userDao().countUser() == 0) {
+                db.userDao().insertUser(
+                    User(
+                        username = "student",
+                        password = "123"
+                    )
+                )
             }
         }
     }

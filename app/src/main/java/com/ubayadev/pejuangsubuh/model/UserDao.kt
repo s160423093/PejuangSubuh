@@ -10,6 +10,9 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertUser(user: User)
 
+    @Query("SELECT COUNT(*) FROM users")
+    fun countUser(): Int
+
     @Query("SELECT * FROM users WHERE username = :username AND password = :password")
     fun checkLogin(username: String, password: String): User?
 }
