@@ -14,14 +14,30 @@ import kotlin.coroutines.CoroutineContext
 
 class DetailHabitViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
     val habitLD = MutableLiveData<Habit>()
+    val goalUI = MutableLiveData<String>()
     val job = Job()
     //    override val coroutineContext: CoroutineContext = job + Dispatchers.IO
     override val coroutineContext: CoroutineContext get() = job + Dispatchers.IO
 
     fun fetch(id: Int) {
-        launch{
+        launch {
             val db = buildDB(getApplication())
-            habitLD.postValue(db.habitDao().selectHabit(id))
+//            habitLD.postValue(db.habitDao().selectHabit(id))
+            val habit = db.habitDao().selectHabit(id)
+            habitLD.postValue(habit)
+
+            if (habit != null) {
+                goalUI.postValue(habit.goal.toString())
+            }
+        }
+    }
+
+    fun saveHabitChanges(updatedHabit: Habit) {
+        launch {
+            val newGoalInt = goalUI.value?.toIntOrNull() ?: 0
+            updatedHabit.goal = newGoalInt
+
+            buildDB(getApplication()).habitDao().updateHabit(updatedHabit)
         }
     }
 
