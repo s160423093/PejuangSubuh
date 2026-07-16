@@ -5,9 +5,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class FileHelper(val context: Context) {
-    val folderName = "myfolder"
-    val fileName = "mydata.txt"
+class FileHelper(val context: Context, val folderName: String = "myfolder", val fileName: String = "mydata.txt") {
 
     fun getFile(): File{
         val dir = File(context.filesDir, folderName)
@@ -20,5 +18,24 @@ class FileHelper(val context: Context) {
             val file = getFile()
             FileOutputStream(file, false).use { outputStream -> outputStream.write(data.toByteArray()) }
         } catch (e: IOException){ e.printStackTrace() }
+    }
+
+    fun readFromFile(): String {
+        return try {
+            val file = getFile()
+            file.bufferedReader().useLines { lines ->
+                lines.joinToString("\n")
+            }
+        } catch (e: IOException) {
+            e.printStackTrace().toString()
+        }
+    }
+
+    fun deleteFile(): Boolean {
+        return getFile().delete()
+    }
+
+    fun isSessionExist(): Boolean {
+        return getFile().exists()
     }
 }

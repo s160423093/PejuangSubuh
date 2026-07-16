@@ -60,7 +60,9 @@
                             android:layout_height="wrap_content"
                             android:text="@{habit.name}"
                             android:textColor="@color/black"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:tag="@{habit.id}"
+                            android:onClick="@{listener::onClick}" />
 
                         <TextView
                             android:id="@+id/txtDescription"

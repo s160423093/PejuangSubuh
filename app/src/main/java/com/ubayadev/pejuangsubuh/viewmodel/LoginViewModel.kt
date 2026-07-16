@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ubayadev.pejuangsubuh.model.User
+import com.ubayadev.pejuangsubuh.utility.FileHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,5 +48,19 @@ class LoginViewModel(application: Application)
                 )
             }
         }
+    }
+    fun saveSession(username: String) {
+        val sessionHelper = FileHelper(getApplication(), "session", "session.txt")
+        sessionHelper.writeToFile(username)
+    }
+
+    fun checkSession(): String {
+        val sessionHelper = FileHelper(getApplication(), "session", "session.txt")
+        return if (sessionHelper.isSessionExist()) sessionHelper.readFromFile() else ""
+    }
+
+    fun clearSession() {
+        val sessionHelper = FileHelper(getApplication(), "session", "session.txt")
+        sessionHelper.deleteFile()
     }
 }

@@ -30,6 +30,13 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+        val existingUsername = viewModel.checkSession()
+        if (existingUsername.isNotEmpty()) {
+            val action = LoginFragmentDirections.actionLoginFragment()
+            Navigation.findNavController(binding.root).navigate(action)
+            return
+        }
+
         viewModel.seedUser()
 
         observeViewModel()
@@ -45,6 +52,9 @@ class LoginFragment : Fragment() {
     fun observeViewModel() {
         viewModel.loginResult.observe(viewLifecycleOwner, Observer {
             if (it == true) {
+                val username = binding.txtUsername.text.toString()
+                viewModel.saveSession(username)
+
                 val action = LoginFragmentDirections.actionLoginFragment()
                 Navigation.findNavController(binding.root).navigate(action)
             } else {
