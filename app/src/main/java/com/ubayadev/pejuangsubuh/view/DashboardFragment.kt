@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ubayadev.pejuangsubuh.databinding.FragmentDashboardBinding
 import com.ubayadev.pejuangsubuh.model.Habit
 import com.ubayadev.pejuangsubuh.viewmodel.HabitViewModel
+import kotlin.toString
 
 class DashboardFragment : Fragment(), HabitItemListener {
     lateinit var binding: FragmentDashboardBinding
@@ -88,10 +89,10 @@ class DashboardFragment : Fragment(), HabitItemListener {
         })
     }
 
-    override fun onClick(v: View) {
-        val habitId = v.tag.toString().toInt()
+    override fun onClick(view: View) {
+        val habitId = view.tag.toString().toInt()
         val action = DashboardFragmentDirections.actionDashboardEditFragment(habitId)
-        v.findNavController().navigate(action)
+        view.findNavController().navigate(action)
     }
 
     override fun onIncrease(habit: Habit) {

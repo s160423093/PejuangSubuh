@@ -64,13 +64,12 @@ class EditHabitFragment : Fragment(), HabitItemListener {
         })
     }
 
-    override fun onClick(v: View) {
+    override fun onClick(view: View) {
         val currentHabit = binding.habit
         if (currentHabit != null) {
             currentHabit.icon = binding.spinnerIcon.selectedItem.toString()
             viewModel.saveHabitChanges(currentHabit)
-
-            Navigation.findNavController(v).popBackStack()
+            view.findNavController().popBackStack()
         }
     }
 
@@ -81,6 +80,4 @@ class EditHabitFragment : Fragment(), HabitItemListener {
     override fun onDecrease(habit: Habit) {
         //
     }
-
-
 }

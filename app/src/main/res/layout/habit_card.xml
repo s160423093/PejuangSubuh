@@ -60,9 +60,7 @@
                             android:layout_height="wrap_content"
                             android:text="@{habit.name}"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:tag="@{habit.id}"
-                            android:onClick="@{listener::onClick}" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txtDescription"
@@ -122,11 +120,28 @@
                     android:progressTint="@color/purple" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btnEdit"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:backgroundTint="@color/gray"
+                        android:contentDescription="decrease"
+                        android:onClick="@{listener::onClick}"
+                        android:src="@drawable/ic_edit"
+                        android:tag="@{habit.id}"
+                        app:tint="@color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                     <ImageButton
                         android:id="@+id/btnDecrease"
@@ -151,6 +166,7 @@
                         tools:ignore="HardcodedText" />
 
                 </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
