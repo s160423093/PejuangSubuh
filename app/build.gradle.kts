@@ -46,8 +46,6 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.kotlinStdlib)
     implementation(libs.coroutinesCore)
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
     implementation(libs.swiperefreshlayout)
     implementation(libs.material)
     implementation(libs.androidx.activity)
