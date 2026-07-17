@@ -128,18 +128,6 @@
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/btnEdit"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:backgroundTint="@color/gray"
-                        android:contentDescription="decrease"
-                        android:onClick="@{listener::onClick}"
-                        android:src="@drawable/ic_edit"
-                        android:tag="@{habit.id}"
-                        app:tint="@color/black"
-                        tools:ignore="HardcodedText" />
-
                     <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
